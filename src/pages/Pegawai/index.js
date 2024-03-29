@@ -1,10 +1,10 @@
-import { ActivityIndicator, FlatList, Image, Linking, SafeAreaView, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native'
+import { ActivityIndicator, Alert, FlatList, Image, Linking, SafeAreaView, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { MyDimensi, colors, fonts, windowHeight, windowWidth } from '../../utils'
 import { Icon } from 'react-native-elements';
 import YoutubePlayer from "react-native-youtube-iframe";
 import axios from 'axios';
-import { apiURL } from '../../utils/localStorage';
+import { MYAPP, apiURL, getData } from '../../utils/localStorage';
 import moment from 'moment';
 import { MyHeader, MyInput } from '../../components';
 export default function Pegawai({ navigation, route }) {
@@ -14,15 +14,23 @@ export default function Pegawai({ navigation, route }) {
 
     const getDataTransaksi = () => {
         setLoading(true);
-        axios.post(apiURL + 'pegawai', {
-            dinas: route.params.dinas
-        }).then(res => {
-            console.log(res.data);
-            setData(res.data);
-            setTMP(res.data)
-        }).finally(() => {
-            setLoading(false)
+
+        getData('local').then(res => {
+            if (!res) {
+                Alert.alert(MYAPP, 'Silahkan atur IP localhost di menu profile')
+            } else {
+                axios.post(`http://${res}/perjadin_api?dinas=` + route.params.dinas).then(res => {
+                    console.log(res.data);
+                    setData(res.data);
+                    setTMP(res.data)
+                }).finally(() => {
+                    setLoading(false)
+                })
+            }
         })
+
+
+
     }
 
     useEffect(() => {
@@ -52,12 +60,12 @@ export default function Pegawai({ navigation, route }) {
                             fontFamily: fonts.secondary[600],
                             color: colors.black,
                             fontSize: MyDimensi / 3.5
-                        }}>{item.nama}</Text>
+                        }}>{item.nama_lengkap}</Text>
                         <Text style={{
                             fontFamily: fonts.secondary[800],
                             color: colors.black,
                             fontSize: MyDimensi / 4
-                        }}>{item.nip}</Text>
+                        }}>{item.nip_pegawai}</Text>
                     </View>
 
                     <View>

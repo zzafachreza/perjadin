@@ -8,6 +8,7 @@ import {
     Linking,
     Alert,
     ActivityIndicator,
+    TextInput,
 } from 'react-native';
 import { windowWidth, fonts, MyDimensi } from '../../utils/fonts';
 import { getData, MYAPP, storeData, urlAPI, urlApp, urlAvatar } from '../../utils/localStorage';
@@ -27,10 +28,19 @@ export default function ({ navigation, route }) {
     const isFocused = useIsFocused();
     const [wa, setWA] = useState('');
     const [open, setOpen] = useState(false);
+    const [local, setLocal] = useState('');
 
 
 
     useEffect(() => {
+
+        getData('local').then(res => {
+            if (!res) {
+                setLocal('000.000.000')
+            } else {
+                setLocal(res)
+            }
+        })
 
 
         if (isFocused) {
@@ -138,6 +148,33 @@ export default function ({ navigation, route }) {
                     {/* <MyButton warna={colors.primary} title="Edit Profile" Icons="create-outline" onPress={() => navigation.navigate('AccountEdit', user)} /> */}
                     <MyGap jarak={10} />
                     <MyButton onPress={btnKeluar} warna={colors.secondary} title="Log Out" Icons="log-out-outline" iconColor={colors.white} colorText={colors.white} />
+                </View>
+
+                <View style={{
+                    padding: 10,
+                    backgroundColor: colors.white,
+                    margin: 20,
+                    borderRadius: 10,
+                }}>
+                    <Text style={{
+                        fontFamily: fonts.secondary[800]
+                    }}>Setting Alamat IP Localhost</Text>
+
+                    <TextInput keyboardType='number-pad' onChangeText={x => {
+                        setLocal(x)
+                    }} onSubmitEditing={x => {
+                        setLocal(x.nativeEvent.text);
+                        storeData('local', x.nativeEvent.text);
+                        Alert.alert(MYAPP, 'IP Localhost berhasil di update !')
+                    }} value={local} style={{
+                        borderWidth: 1,
+                        paddingLeft: 10,
+                        marginVertical: 10,
+                        borderRadius: 10,
+                        borderColor: colors.primary,
+                        fontFamily: fonts.secondary[600],
+                        fontSize: 20,
+                    }} />
                 </View>
             </ScrollView>
         </SafeAreaView >

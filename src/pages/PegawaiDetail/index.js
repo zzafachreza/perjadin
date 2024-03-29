@@ -73,16 +73,16 @@ export default function PegawaiDetail({ navigation, route }) {
                 <View style={{
                     padding: 10
                 }}>
-                    <MyList label="Nama" value={item.nama} />
-                    <MyList label="NIP" value={item.nip} />
+                    <MyList label="Nama" value={item.nama_lengkap} />
+                    <MyList label="NIP" value={item.nip_pegawai} />
                     <MyList label="Jabatan" value={item.jabatan} />
-                    <MyList label="OPD" value={item.opd} />
-                    <MyList label="Nomor ST" value={item.nomor_st} />
+                    <MyList label="OPD" value={item.no_sppd} />
+                    <MyList label="Nomor ST" value={item.no_surat_tugas} />
                     <MyList label="Tanggal Berangkat" value={item.tanggal_berangkat} />
                     <MyList label="Tanggal Kembali" value={item.tanggal_kembali} />
-                    <MyList label="Selama" value={item.selama} />
-                    <MyList label="Di Setujui" value={item.disetujui} />
-                    <MyList label="Tujuan" value={item.tujuan} />
+                    <MyList label="Selama" value={item.selama + ' Hari'} />
+                    <MyList label="Di Setujui" value={item.nm_lengkap} />
+                    <MyList label="Tujuan" value={item.tempat_tujuan} />
                     <MyList label="Uraian" value={item.uraian} />
                 </View>
 
