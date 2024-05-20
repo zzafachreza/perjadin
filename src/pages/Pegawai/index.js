@@ -19,7 +19,7 @@ export default function Pegawai({ navigation, route }) {
             if (!res) {
                 Alert.alert(MYAPP, 'Silahkan atur IP localhost di menu profile')
             } else {
-                axios.post(`http://${res}/perjadin_api?dinas=` + route.params.dinas).then(res => {
+                axios.get(`http://${res}/perjadin_api?dinas=` + route.params.dinas).then(res => {
                     console.log(res.data);
                     setData(res.data);
                     setTMP(res.data)
